@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  padding: 0px;
+  margin: 0px;
+}
+
+html {
+  scrollbar-width: 0px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* antd menu */
+
+.ant-menu-item,
+.ant-menu-submenu-title {
+  min-height: 50px !important;
+  padding-left:10px !important;
+}
+
+.ant-menu-item > .ant-menu-title-content,
+.ant-menu-submenu {
+  color: black !important;
+  font-weight: bold !important;
+  letter-spacing: 0.5px !important;
+  font-size: 15px !important;
+}
+
+.ant-menu-item > .ant-menu-item-icon {
+  color: black !important;
+  background-color: white !important;
+  padding: 10px !important;
+  border-radius: 10px !important;
+}
+
+/* active */
+
+.ant-menu-item .ant-menu-item-selected .ant-menu-item-only-child {
+  color: green !important;
+  background-color: white !important;
+}
+
+.ant-menu-item-selected,
+.ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  background: linear-gradient(141.55deg, #6fd943 3.46%, #6fd943 99.86%), #6fd943 !important;
+}
+
+.ant-menu-item-selected > .ant-menu-title-content,
+.ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  color: white !important;
+  font-weight: bold !important;
+  letter-spacing: 0.5px !important;
+  font-size: 15px !important;
+}
+
+.ant-menu-item-selected > .ant-menu-item-icon {
+  color: black !important;
+  background-color: white !important;
+  padding: 10px !important;
+  border-radius: 10px !important;
+  box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: 1px 2px 5px 0px rgba(68, 68, 68, 0.75);
+  -moz-box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75);
+}
+
+.ant-select-selector{
+  height: 50px !important;
+  border: 2px solid #d1d5db !important;
+}
