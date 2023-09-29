@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, FileExcelOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   Badge,
   Button,
+  Divider,
   Drawer,
   Form,
   Input,
@@ -92,24 +93,44 @@ const Category = () => {
 
   return (
     <div className="w-[100%] h-[100%] flex flex-col gap-y-1 justify-center items-center">
-      <div className="flex justify-start items-center w-[96%] h-[70px] px-4 rounded-lg">
-        <Tag
-          color="green"
-          onClick={() => {
-            setOpen(true);
-          }}
-          className="flex items-center cursor-pointer"
-        >
-          <PlusOutlined />
-          <span>Add Category</span>
-        </Tag>
-      </div>
-      <div className="flex justify-between px-10 w-[100%] h-[80%]">
+       <div className="flex items-center justify-between bg-white p-4 shadow-lg rounded w-full">
+          <div className="flex flex-col  w-full">
+            <div className="flex justify-between w-ful items-centerl">
+              <h1>Categories</h1>
+              <div className="flex">
+                <Tag
+                  icon={<FileExcelOutlined />}
+                  className="items-center flex cursor-pointer"
+                >
+                  Import
+                </Tag>
+                <Tag
+                  icon={<SearchOutlined />}
+                  className="items-center flex cursor-pointer"
+                >
+                  Search
+                </Tag>
+                <Tag
+                  icon={<PlusOutlined/>}
+                  className="items-center flex cursor-pointer"
+                  color="green"
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  Add New
+                </Tag>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+      <div className="flex justify-between  w-[100%] h-[80%]">
         <Table
           key={1}
           rowSelection
           pagination={{ size: "small" }}
-          className="w-[100%]"
+          className="w-[100%] bg-white shadow-lg rounded p-4"
           dataSource={vendorsData}
           columns={columns}
         />

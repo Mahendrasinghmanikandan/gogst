@@ -22,11 +22,11 @@ function getItem(label, key, icon, children, type) {
 
 export const items = [
   getItem("Dashboard", "/Dashboard", <HomeOutlined />),
-  getItem("Vendors", "/Vendors", <UserSwitchOutlined />),
-  getItem("Products", "/Products", <ContainerOutlined />),
-  getItem("Sales", "/Sales", <DollarOutlined />),
-  getItem("Purchase", "/Purchase", <FileDoneOutlined />),
-  getItem("Report", "/Report", <BookOutlined />),
+  getItem("Customer / Vendors", "/Vendors", <UserSwitchOutlined />),
+  getItem("Products / Services", "/Products", <ContainerOutlined />),
+  getItem("Sales Invoice", "/Sales", <DollarOutlined />),
+  getItem("Purchase Invoice", "/Purchase", <FileDoneOutlined />),
+  // getItem("All Reports", "/Report", <BookOutlined />),
   getItem("Constant", "/Constant", <AimOutlined />),
   getItem("Settings", "/Settings", <SettingOutlined />),
     // getItem("Constant", "sub1", <MailOutlined />, [

@@ -10,22 +10,7 @@ const Sidenavbar = () => {
   const path = usePathname();
   return (
     <div className="w-[100%] flex flex-col items-center h-screen">
-      <div className="mt-10">
-        <Image src="/assets/images/logo.png" width={100} height={100} />
-      </div>
-      <div className="mt-5 flex flex-col w-[100%] gap-y-2 h-[85vh] overflow-y-scroll">
-        {/* {[1, 2, 3, 4, 5, 6, 7, 8].map((res, index) => {
-          return (
-            <div className="w-[100%]  flex items-center justify-start gap-x-2 bg-green-500 h-[50px] rounded-md pl-2 shadow-2xl">
-              <div className="bg-white shadow-2xl w-[40px] h-[40px] rounded-lg  flex items-center justify-center">
-                <HomeOutlined />
-              </div>
-              <div>
-                <h1>Dashboard</h1>
-              </div>
-            </div>
-          );
-        })} */}
+      <div className=" flex flex-col w-[100%] gap-y-2 h-[calc(100vh-50px)] bg-green-500 overflow-y-scroll">
         <Menu
           onClick={(e) => {
             router.push(e.key);
@@ -36,7 +21,7 @@ const Sidenavbar = () => {
           theme="light"
           // inlineCollapsed={collapsed}
           items={items}
-          className="!border-none"
+          className="!border-none bg-green-500"
         />
       </div>
     </div>

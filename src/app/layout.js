@@ -33,21 +33,32 @@ export default function RootLayout({ children }) {
     }
   }, []);
 
+  useEffect(() => {
+    const handleClicked = (key) => {
+      if (key.shiftKey && key.key === "D") router.push("/Dashboard");
+      if (key.shiftKey && key.key === "Z") router.push("/Products");
+      if (key.shiftKey && key.key === "V") router.push("/Vendors");
+      if (key.shiftKey && key.key === "P") router.push("/Purchase");
+      if (key.shiftKey && key.key === "S") router.push("/Sales");
+      if (key.shiftKey && key.key === "C") router.push("/Constant");
+      if (key.shiftKey && key.key === "X") router.push("/Settings");
+    };
+    window.addEventListener("keyup", handleClicked);
+    return () => {
+      window.removeEventListener("keyup", handleClicked);
+    };
+  }, []);
+
   return (
     <html lang="en">
       <title>Billing Software</title>
       <body className={inter.className}>
         <Skeleton loading={loading} className="!w-screen !h-screen">
-          <div className="!flex !w-screen !h-screen !bg-gradient-to-r from-white to-[#f5f7f6]">
-            <div className="w-[15vw]">{path !== "/" && <Sidenavbar />}</div>
-            <div
-              className={`flex flex-col ${
-                path === "/" ? "w-screen" : "w-[85vw]"
-              }`}
-            >
-              {path !== "/" && <Topnavbar />}
-              <div>{children}</div>
-            </div>
+          <div className={`flex flex-col  w-screen`}>
+            {!["/Sales/bill", "/", "/Purchase/bill"].includes(path) && (
+              <Topnavbar />
+            )}
+            <div className="bg-[#f8f8f8] w-screen min-h-screen">{children}</div>
           </div>
         </Skeleton>
       </body>

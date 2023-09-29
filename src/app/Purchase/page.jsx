@@ -26,7 +26,9 @@ import { get } from "lodash";
 import {
   createProducts,
   createVendors,
+  deletePurchaseBill,
   deleteSalesBill,
+  gellAllPurchaseBill,
   gellAllSalesBill,
   getAllProducts,
   getAllVendors,
@@ -36,7 +38,7 @@ import moment from "moment";
 import _ from "lodash";
 import SalesBillView from "./SalesBillView";
 
-const Sales = () => {
+const Purchase = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [salesData, setSalesData] = useState([]);
@@ -62,7 +64,7 @@ const Sales = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const result = await gellAllSalesBill();
+      const result = await gellAllPurchaseBill();
       setSalesData(get(result, "data.data", []));
       setLoading(false);
     } catch (err) {
@@ -78,7 +80,7 @@ const Sales = () => {
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      await deleteSalesBill({ id: id });
+      await deletePurchaseBill({ id: id });
       notification.success({message:"Deleted Successfully"});
       setLoading(false);
       fetchData();
@@ -191,7 +193,7 @@ const Sales = () => {
         <div className="flex items-center justify-between bg-white p-4 shadow-lg rounded">
           <div className="flex flex-col  w-full">
             <div className="flex justify-between w-ful items-centerl">
-              <h1>Sales Invoice</h1>
+              <h1>Purchase Invoice</h1>
               <div className="flex gap-x-2">
                 {/* <Tag
                 icon={<FileExcelOutlined />}
@@ -246,4 +248,4 @@ const Sales = () => {
   );
 };
 
-export default Sales;
+export default Purchase;

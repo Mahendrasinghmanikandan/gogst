@@ -89,15 +89,15 @@ const Login = ({ currentCom, setCurrentCom }) => {
         </Form.Item>
 
         <div className="flex gap-x-2 ">
-          <div className="!h-[50px] cursor-pointer rounded-lg group !w-[50%] !bg-slate-50 shadow-lg !border-none  !font-bold !text-lg flex items-center justify-center gap-x-2 !tracking-wide">
+          {/* <div className="!h-[50px] cursor-pointer rounded-lg group !w-[50%] !bg-slate-50 shadow-lg !border-none  !font-bold !text-lg flex items-center justify-center gap-x-2 !tracking-wide">
             <Image src="/assets/images/google.png" width={20} height={100} />
             <p className="!font-primary !font-bold text-sm group-hover:text-blue-500">
               Sign in With Google
             </p>
-          </div>
+          </div> */}
           <div
             onClick={handleGuestClick}
-            className="!h-[50px] !w-[50%] cursor-pointer rounded-lg !bg-slate-50 group shadow-lg !border-none  !font-bold !text-lg flex items-center justify-center gap-x-2 !tracking-wide"
+            className="!h-[50px] !w-[100%] cursor-pointer rounded-lg !bg-slate-50 group shadow-lg !border-none  !font-bold !text-lg flex items-center justify-center gap-x-2 !tracking-wide"
           >
             <PlaySquareOutlined />
             <p className="!font-primary !font-bold text-sm group-hover:text-green-500">

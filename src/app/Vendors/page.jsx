@@ -1,9 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+  FileExcelOutlined,
+} from "@ant-design/icons";
 import {
   Badge,
   Button,
+  Divider,
   Drawer,
   Form,
   Input,
@@ -13,13 +20,19 @@ import {
   Tooltip,
   notification,
 } from "antd";
-import { get } from "lodash";
-import { createVendors, getAllVendors } from "../helper/apiHelper";
+import _, { get } from "lodash";
+import {
+  createVendors,
+  deleteVendor,
+  getAllVendors,
+} from "../helper/apiHelper";
 
 const Vendors = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [vendorsData, setVendorsData] = useState([]);
+  const [updateData, setUpdateData] = useState("");
+  const [id, setId] = useState([]);
   const [form] = Form.useForm();
 
   const handleFinish = async (values) => {
@@ -39,9 +52,13 @@ const Vendors = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
+      setId([]);
       const result = await getAllVendors();
       setVendorsData(get(result, "data.data", []));
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       notification.error({ message: "Something went wrong" });
     }
   };
@@ -49,6 +66,28 @@ const Vendors = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDelete = async (value) => {
+    try {
+      setLoading(true);
+      let ids = "";
+      if (value === 15) {
+        ids = _.isEmpty(id)
+          ? JSON.stringify({ id: _.get(value, "_id", "") })
+          : JSON.stringify({ id: id, from: "multiple" });
+      } else {
+        ids = JSON.stringify({ id: _.get(value, "_id", "") });
+      }
+      await deleteVendor(ids);
+      setId([]);
+      fetchData();
+      setLoading(false);
+      notification.success({ message: "Vendor Successfully Deleted" });
+    } catch (err) {
+      setLoading(false);
+      notification.error({ message: "Something Went Wrong" });
+    }
+  };
 
   const columns = [
     {
@@ -78,13 +117,27 @@ const Vendors = () => {
     },
     {
       title: "Action",
-      align:"center",
-      fixed:"right",
-      render: () => {
+      align: "center",
+      fixed: "right",
+      render: (values) => {
         return (
           <div className="flex justify-evenly">
-            <EditOutlined className="text-green-500" />
-            <DeleteOutlined className="text-red-500" />
+            <EditOutlined
+              onClick={() => {
+                setUpdateData(_.get(values, "_id", ""));
+                form.setFieldsValue(values);
+                setId([]);
+                setOpen(true);
+              }}
+              className="text-green-500 cursor-pointer hover:shadow-inner hover:white p-1 rounded-full"
+            />
+            <DeleteOutlined
+              onClick={() => {
+                handleDelete(values);
+                setId([]);
+              }}
+              className="text-red-500 cursor-pointer hover:shadow-inner hover:white p-1 rounded-full"
+            />
           </div>
         );
       },
@@ -92,41 +145,88 @@ const Vendors = () => {
   ];
 
   return (
-    <div className="w-[100%] h-[100%] flex flex-col gap-y-1 justify-center items-center">
-      <div className="flex justify-start items-center w-[96%] h-[70px] px-4 rounded-lg">
-        <Tag
-          color="green"
-          onClick={() => {
-            setOpen(true);
-          }}
-          className="flex items-center cursor-pointer"
-        >
-          <PlusOutlined />
-          <span>Add Vendor</span>
-        </Tag>
+    <div className="w-[100%] h-[100%] flex flex-col gap-y-1 justify-center items-center pt-[120px]">
+      <div className="w-[90%]  flex flex-col gap-y-5">
+        <div className="flex items-center justify-between bg-white p-4 shadow-lg rounded">
+          <div className="flex flex-col  w-full">
+            <div className="flex justify-between w-ful items-centerl">
+              <h1>Customer / Vendor</h1>
+              <div className="flex gap-x-2">
+                {/* <Tag
+                  icon={<FileExcelOutlined />}
+                  className="items-center flex cursor-pointer"
+                >
+                  Import
+                </Tag> */}
+                {/* <Input placeholder="Search" allowClear /> */}
+                <Tag
+                  icon={<PlusOutlined />}
+                  className="items-center flex cursor-pointer "
+                  color="green"
+                  onClick={() => {
+                    setOpen(true);
+                    setId([]);
+                  }}
+                >
+                  Add New
+                </Tag>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* table */}
+        <div className="bg-white shadow-lg p-4 rounded relative">
+          <Table
+            rowKey={(value) => value._id}
+            pagination={{ size: "small", position: ["topRight"], pageSize: 5 }}
+            className="w-[100%]"
+            dataSource={vendorsData}
+            columns={columns}
+            loading={loading}
+            rowSelection={{
+              selectedRowKeys: id,
+              onChange: (selectedRowKeys, selectedRows) => {
+                setId(
+                  selectedRows.map((res) => {
+                    return res._id;
+                  })
+                );
+              },
+            }}
+          />
+          {!_.isEmpty(id) ? (
+            <Tag
+              icon={<DeleteOutlined />}
+              className="items-center flex cursor-pointer animate-pulse absolute top-10 z-50"
+              color="red"
+              aria-disabled
+              onClick={() => {
+                handleDelete(15);
+              }}
+            >
+              Delete
+            </Tag>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
-      <div className="flex justify-between px-10 w-[100%] h-[80%]">
-        <Table
-          key={1}
-          rowSelection
-          pagination={{ size: "small" }}
-          className="w-[100%]"
-          dataSource={vendorsData}
-          columns={columns}
-        />
-      </div>
-      <Modal
+      <Drawer
         open={open}
         destroyOnClose
-        width={500}
+        height={500}
         footer={false}
-        title="Create New Vendor"
-        onCancel={() => {
+        title={`${updateData !=="" ? "Update" : "Add New"} Vendor`}
+        className="!relative"
+        placement="bottom"
+        onClose={() => {
           setOpen(false);
+          setUpdateData("");
+          form.resetFields();
         }}
       >
         <Form
-          className="flex flex-wrap w-[100%] gap-x-10 justify-center mt-10"
+          className="form_rover"
           layout="vertical"
           form={form}
           onFinish={handleFinish}
@@ -136,10 +236,7 @@ const Vendors = () => {
             name="vendor_name"
             label={<span className="font-bold text-black">Name</span>}
           >
-            <Input
-              className="w-[30vw] h-[50px] border-2 border-gray-300 hover:!border-green-500 focus:!border-green-500 !shadow-inner"
-              placeholder="Enter Name"
-            />
+            <Input className="my_input_box" placeholder="Enter Name" />
           </Form.Item>
           <Form.Item
             name="vendor_contact"
@@ -147,7 +244,10 @@ const Vendors = () => {
             label={<span className="font-bold text-black">Contact</span>}
           >
             <Input
-              className="w-[30vw] h-[50px] border-2 border-gray-300 hover:!border-green-500 focus:!border-green-500 !shadow-inner"
+              type="Number"
+              maxLength={10}
+              minLength={10}
+              className="my_input_box"
               placeholder="Enter Contact"
             />
           </Form.Item>
@@ -159,10 +259,7 @@ const Vendors = () => {
             ]}
             label={<span className="font-bold text-black">Email</span>}
           >
-            <Input
-              className="w-[30vw] h-[50px]  border-2 border-gray-300 hover:!border-green-500 focus:!border-green-500 !shadow-inner"
-              placeholder="Enter Email"
-            />
+            <Input className="my_input_box" placeholder="Enter Email" />
           </Form.Item>
           <Form.Item
             name="vendor_address"
@@ -170,7 +267,7 @@ const Vendors = () => {
             label={<span className="font-bold text-black">Address</span>}
           >
             <Input.TextArea
-              className="w-[30vw] h-[50px]  border-2 border-gray-300 hover:!border-green-500 focus:!border-green-500 !shadow-inner"
+              className="my_input_box"
               placeholder="Enter Address"
             />
           </Form.Item>
@@ -183,22 +280,20 @@ const Vendors = () => {
             ]}
             label={<span className="font-bold text-black">GSTIN Number</span>}
           >
-            <Input
-              className="w-[30vw] h-[50px]  border-2 border-gray-300 hover:!border-green-500 focus:!border-green-500 !shadow-inner"
-              placeholder="Enter GST Number"
-            />
+            <Input className="my_input_box" placeholder="Enter GST Number" />
           </Form.Item>
-          <Form.Item className="w-[100%]">
+          <Form.Item className="drawer_button">
             <Button
               loading={loading}
               htmlType="submit"
-              className="!h-[50px] !w-[100%] bg-green-500 text-white hover:!text-white !border-green-500 !font-bold !text-lg capitalize !tracking-wide"
+              className="primary_button"
             >
-              Create
+             
+              {updateData !=="" ? "Update" : "Add "} 
             </Button>
           </Form.Item>
         </Form>
-      </Modal>
+      </Drawer>
     </div>
   );
 };

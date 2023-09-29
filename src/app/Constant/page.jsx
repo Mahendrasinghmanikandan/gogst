@@ -26,12 +26,12 @@ const Constant = () => {
   ];
 
   return (
-    <div className="w-[100%] flex justify-center">
-      <div className="w-[98%] mt-10">
+    <div className="w-[100%] flex justify-center pt-[120px]">
+      <div className="w-[90%] ">
         <Tabs
-          tabPosition="right"
+          tabPosition="left"
           type="line"
-          className="!w-full !h-full"
+          className="!w-full !h-full "
           destroyInactiveTabPane
           defaultActiveKey="1"
           items={items}

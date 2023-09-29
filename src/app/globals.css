@@ -2,9 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   padding: 0px;
   margin: 0px;
+}
+
+/* tailwind */
+@layer components {
+  .my_input_box {
+    @apply !w-[400px] !h-[50px] !border-2 !border-gray-300 hover:!border-green-500 focus:!border-green-500 !shadow-inner;
+  }
+  .my_select_box {
+    @apply !w-[400px] !h-[50px]   hover:!border-green-500 focus:!border-green-500 !shadow-inner flex items-center justify-center;
+  }
+  .primary_button {
+    @apply !h-[35px] flex items-center justify-center hover:bg-transparent rounded   !w-[80px] border-green-500 hover:!bg-green-500 hover:!text-white !text-green-500 !font-bold !text-sm capitalize !tracking-wide;
+  }
+  .drawer_button {
+    @apply w-[100px] absolute right-2 top-[10px];
+  }
+  .form_rover {
+    @apply flex flex-wrap items-start w-[100%] gap-x-10 justify-start gap-4;
+  }
+  .form_label {
+    @apply font-bold text-black;
+  }
 }
 
 html {
@@ -20,12 +42,16 @@ html {
 .ant-menu-item,
 .ant-menu-submenu-title {
   min-height: 50px !important;
-  padding-left:10px !important;
+  padding-left: 10px !important;
+  /* border: 1px solid lightgray; */
+  /* box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: 1px 2px 5px 0px rgba(226, 224, 224, 0.75);
+  -moz-box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75); */
 }
 
 .ant-menu-item > .ant-menu-title-content,
 .ant-menu-submenu {
-  color: black !important;
+  color: gray !important;
   font-weight: bold !important;
   letter-spacing: 0.5px !important;
   font-size: 15px !important;
@@ -42,14 +68,24 @@ html {
 
 .ant-menu-item .ant-menu-item-selected .ant-menu-item-only-child {
   color: green !important;
-  background-color: white !important;
+  background-color: #22c55e !important;
 }
 
 .ant-menu-item-selected,
 .ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
-  background: linear-gradient(141.55deg, #6fd943 3.46%, #6fd943 99.86%), #6fd943 !important;
+  background: #22c55e !important;
+  color: white !important;
+  /* border: 1px solid lightgray; */
+  /* box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: 1px 2px 5px 0px rgba(218, 215, 215, 0.75);
+  -moz-box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75); */
 }
-
+.ant-menu-item:hover > .ant-menu-title-content {
+  color: white !important;
+}
+.ant-menu-item:hover {
+  background-color: #22c55e !important;
+}
 .ant-menu-item-selected > .ant-menu-title-content,
 .ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
   color: white !important;
@@ -63,12 +99,21 @@ html {
   background-color: white !important;
   padding: 10px !important;
   border-radius: 10px !important;
-  box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75);
-  -webkit-box-shadow: 1px 2px 5px 0px rgba(68, 68, 68, 0.75);
-  -moz-box-shadow: 1px 2px 5px 0px rgba(255, 255, 255, 0.75);
 }
 
-.ant-select-selector{
+.ant-select-selector {
   height: 50px !important;
   border: 2px solid #d1d5db !important;
+}
+
+.ant-menu-item-selected::after {
+  border-bottom-color: transparent !important;
+}
+
+.ant-menu-item::after {
+  border-bottom-color: transparent !important;
+}
+
+.ant-tabs-nav-list {
+  background-color: white !important;
 }
